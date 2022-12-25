@@ -19,12 +19,15 @@ protected:
     unsigned name_font_size = 120;
     unsigned score_font_size = 300;
 
+    sf::Color team1_col = sf::Color::White;
+    sf::Color team2_col = sf::Color::White;
+
     enum State
     {
-        RUNNING,
-        STOPPED
+        STOPPED,
+        PENDING
     };
-    State state = STOPPED;
+    State state = PENDING;
 
 public:
     Canvas() = default;
@@ -50,5 +53,8 @@ protected:
     void handle_events();
     void handle_key_pressed_event(const sf::Event& event);
 
+    void team1_buzz();
+    void team2_buzz();
+    void reset();
 };
 

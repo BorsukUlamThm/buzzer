@@ -59,11 +59,8 @@ void Canvas::display_game(const Game &game)
 
 void Canvas::display_teams(const Game &game)
 {
-    sf::Color left_col(255, 51, 51);
-    sf::Color right_col(51, 153, 255);
-
-    display_team(game.team1, true, left_col);
-    display_team(game.team2, false, right_col);
+    display_team(game.team1, true, team1_col);
+    display_team(game.team2, false, team2_col);
 }
 
 void Canvas::display_team(const Team& team,
@@ -187,14 +184,50 @@ void Canvas::handle_key_pressed_event(const sf::Event& event)
     switch (event.key.code)
     {
         case sf::Keyboard::Escape:
-        case sf::Keyboard::Q:
             window.clear();
             window.close();
+            break;
+
+        case sf::Keyboard::A:
+            team1_buzz();
+            break;
+
+        case sf::Keyboard::P:
+            team2_buzz();
+            break;
+
+        case sf::Keyboard::Space:
+            reset();
             break;
 
         default:
             break;
     }
+}
+
+void Canvas::team1_buzz()
+{
+    if(state == STOPPED)
+    { return; }
+
+    team1_col = sf::Color(255, 51, 51);
+    state = STOPPED;
+}
+
+void Canvas::team2_buzz()
+{
+    if(state == STOPPED)
+    { return; }
+
+    team2_col = sf::Color(51, 153, 255);
+    state = STOPPED;
+}
+
+void Canvas::reset()
+{
+    team1_col = sf::Color::White;
+    team2_col = sf::Color::White;
+    state = PENDING;
 }
 
 
