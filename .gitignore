@@ -36,8 +36,12 @@ bin
 *.out
 *.app
 
+# Build
 build
 cmake-build-*
+
+# Logs
+data/logs
 
 # CLion stuff
 .idea/*

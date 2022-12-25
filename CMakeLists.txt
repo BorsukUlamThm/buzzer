@@ -15,7 +15,10 @@ set(exe_name buzzer)
 add_executable(${exe_name}
         src/main.cpp
         src/model/Game.h
-        src/model/Game.cpp)
+        src/model/Game.cpp
+        src/view/Canvas.h
+        src/view/Canvas.cpp
+        )
 
 target_link_libraries(${exe_name} -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio)
 set_target_properties(${exe_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${bin})

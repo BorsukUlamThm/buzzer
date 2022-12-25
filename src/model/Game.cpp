@@ -20,16 +20,16 @@ Game::Game(const std::string &file)
 
         if(team1_done)
         {
-            team2_name = line;
+            team2.name = line;
             std::getline(ifs, line);
-            team2_score = std::stoi(line);
+            team2.score = std::stoi(line);
             return;
         }
         else
         {
-            team1_name = line;
+            team1.name = line;
             std::getline(ifs, line);
-            team1_score = std::stoi(line);
+            team1.score = std::stoi(line);
             team1_done = true;
         }
     }
@@ -37,24 +37,24 @@ Game::Game(const std::string &file)
 
 void Game::increase_team1_score()
 {
-    team1_score++;
+    team1.score++;
     save_log();
 }
 
 void Game::increase_team2_score()
 {
-    team2_score++;
+    team2.score++;
     save_log();
 }
 
 void Game::save_log() const
 {
     std::ofstream ofs ("../data/logs/game");
-    ofs << team1_name << std::endl
-    << team1_score << std::endl
+    ofs << team1.name << std::endl
+    << team1.score << std::endl
     << std::endl
-    << team2_name << std::endl
-    << team2_score << std::endl
+    << team2.name << std::endl
+    << team2.score << std::endl
     << std::endl;
 }
 

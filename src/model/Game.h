@@ -3,18 +3,24 @@
 #include <string>
 #include <vector>
 
-class Game
+struct Team
 {
-private:
-    std::string team1_name;
-    std::string team2_name;
-    int team1_score = 0;
-    int team2_score = 0;
+    std::string name;
+    int score = 0;
+};
 
-public:
+
+struct Game
+{
+    // Attributes
+    Team team1;
+    Team team2;
+
+    // Constructors
     Game() = default;
     explicit Game(const std::string& file);
 
+    // Functions
     void increase_team1_score();
     void increase_team2_score();
 
