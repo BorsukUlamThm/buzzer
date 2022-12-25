@@ -11,6 +11,7 @@ class Canvas
 protected:
     sf::RenderWindow window;
     sf::View view;
+    Game game;
 
     float size_x = 0;
     float size_y = 0;
@@ -31,13 +32,14 @@ protected:
 
 public:
     Canvas() = default;
-    void display_game(const Game& game);
+    Canvas(Game game);
+    void start_game();
 
 protected:
     void open();
     void setup_view();
 
-    void display_teams(const Game& game);
+    void display_teams();
     void display_team(const Team& team,
                       bool left,
                       const sf::Color& col);
@@ -52,9 +54,13 @@ protected:
 
     void handle_events();
     void handle_key_pressed_event(const sf::Event& event);
+    void mouse_button_pressed_event(const sf::Event& event);
 
     void team1_buzz();
     void team2_buzz();
     void reset();
+
+    void increase_score(float x);
+    void decrease_score(float x);
 };
 

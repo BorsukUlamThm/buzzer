@@ -1,5 +1,11 @@
 #include "Canvas.h"
 
+#include <utility>
+
+Canvas::Canvas(Game game):
+    game(std::move(game))
+{}
+
 
 void Canvas::open()
 {
@@ -43,7 +49,7 @@ void Canvas::setup_view()
     window.setView(view);
 }
 
-void Canvas::display_game(const Game &game)
+void Canvas::start_game()
 {
     open();
     setup_view();
@@ -51,13 +57,13 @@ void Canvas::display_game(const Game &game)
     {
         handle_events();
 
-        display_teams(game);
+        display_teams();
 
         window.display();
     }
 }
 
-void Canvas::display_teams(const Game &game)
+void Canvas::display_teams()
 {
     display_team(game.team1, true, team1_col);
     display_team(game.team2, false, team2_col);
@@ -173,6 +179,10 @@ void Canvas::handle_events()
                 handle_key_pressed_event(event);
                 break;
 
+            case sf::Event::MouseButtonPressed:
+                mouse_button_pressed_event(event);
+                break;
+
             default:
                 break;
         }
@@ -196,13 +206,31 @@ void Canvas::handle_key_pressed_event(const sf::Event& event)
             team2_buzz();
             break;
 
-        case sf::Keyboard::Space:
+        default:
+            break;
+    }
+}
+
+void Canvas::mouse_button_pressed_event(const sf::Event& event)
+{
+    switch (event.mouseButton.button)
+    {
+        case sf::Mouse::Left:
+            increase_score(float(event.mouseButton.x));
+            break;
+
+        case sf::Mouse::Right:
+            decrease_score(float(event.mouseButton.x));
+            break;
+
+        case sf::Mouse::Middle:
             reset();
             break;
 
         default:
             break;
     }
+
 }
 
 void Canvas::team1_buzz()
@@ -228,6 +256,30 @@ void Canvas::reset()
     team1_col = sf::Color::White;
     team2_col = sf::Color::White;
     state = PENDING;
+}
+
+void Canvas::increase_score(float x)
+{
+    if(x < size_x / 2)
+    {
+        game.increase_team1_score();
+    }
+    else
+    {
+        game.increase_team2_score();
+    }
+}
+
+void Canvas::decrease_score(float x)
+{
+    if(x < size_x / 2)
+    {
+        game.decrease_team1_score();
+    }
+    else
+    {
+        game.decrease_team2_score();
+    }
 }
 
 

@@ -47,6 +47,18 @@ void Game::increase_team2_score()
     save_log();
 }
 
+void Game::decrease_team1_score()
+{
+    team1.score--;
+    save_log();
+}
+
+void Game::decrease_team2_score()
+{
+    team2.score--;
+    save_log();
+}
+
 void Game::save_log() const
 {
     std::ofstream ofs ("../data/logs/game");

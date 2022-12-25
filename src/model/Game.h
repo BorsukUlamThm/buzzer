@@ -23,6 +23,8 @@ struct Game
     // Functions
     void increase_team1_score();
     void increase_team2_score();
+    void decrease_team1_score();
+    void decrease_team2_score();
 
 private:
     void save_log() const;
