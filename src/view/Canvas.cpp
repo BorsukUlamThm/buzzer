@@ -2,15 +2,27 @@
 
 #include <utility>
 
+
+void Canvas::setup()
+{
+    font.loadFromFile("../data/fonts/arial.ttf");
+
+    std::string sound_dir = "../data/sounds/";
+    team1_sound_buffer.loadFromFile(sound_dir + "team1_sound.wav");
+    team1_sound.setBuffer(team1_sound_buffer);
+    team2_sound_buffer.loadFromFile(sound_dir + "team2_sound.wav");
+    team2_sound.setBuffer(team2_sound_buffer);
+}
+
 Canvas::Canvas(Game game):
     game(std::move(game))
-{}
+{
+    setup();
+}
 
 
 void Canvas::open()
 {
-    font.loadFromFile("../data/fonts/arial.ttf");
-
     window.clear(sf::Color::White);
     if (window.isOpen())
     { return; }
@@ -238,6 +250,8 @@ void Canvas::team1_buzz()
     if(state == STOPPED)
     { return; }
 
+    team1_sound.play();
+
     team1_col = sf::Color(255, 51, 51);
     state = STOPPED;
 }
@@ -247,12 +261,16 @@ void Canvas::team2_buzz()
     if(state == STOPPED)
     { return; }
 
+    team2_sound.play();
+
     team2_col = sf::Color(51, 153, 255);
     state = STOPPED;
 }
 
 void Canvas::reset()
 {
+    setup();
+
     team1_col = sf::Color::White;
     team2_col = sf::Color::White;
     state = PENDING;

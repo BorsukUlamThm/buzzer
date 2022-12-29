@@ -1,4 +1,3 @@
-#include <iostream>
 #include "model/Game.h"
 #include "view/Canvas.h"
 

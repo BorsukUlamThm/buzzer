@@ -30,12 +30,18 @@ protected:
     };
     State state = PENDING;
 
+    sf::SoundBuffer team1_sound_buffer;
+    sf::SoundBuffer team2_sound_buffer;
+    sf::Sound team1_sound;
+    sf::Sound team2_sound;
+
 public:
     Canvas() = default;
-    Canvas(Game game);
+    explicit Canvas(Game game);
     void start_game();
 
 protected:
+    void setup();
     void open();
     void setup_view();
 
