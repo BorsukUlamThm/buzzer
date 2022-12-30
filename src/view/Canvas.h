@@ -25,15 +25,17 @@ protected:
 
     enum State
     {
-        STOPPED,
-        PENDING
+        BLOCKED,
+        PENDING,
+        BUZZED
     };
-    State state = PENDING;
+    State state = BLOCKED;
 
     sf::SoundBuffer team1_sound_buffer;
     sf::SoundBuffer team2_sound_buffer;
     sf::Sound team1_sound;
     sf::Sound team2_sound;
+    sf::Music music;
 
 public:
     Canvas() = default;
@@ -65,6 +67,7 @@ protected:
     void team1_buzz();
     void team2_buzz();
     void reset();
+    void hard_reset();
 
     void increase_score(float x);
     void decrease_score(float x);

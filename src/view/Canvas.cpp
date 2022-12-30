@@ -12,6 +12,8 @@ void Canvas::setup()
     team1_sound.setBuffer(team1_sound_buffer);
     team2_sound_buffer.loadFromFile(sound_dir + "team2_sound.wav");
     team2_sound.setBuffer(team2_sound_buffer);
+
+    music.openFromFile(sound_dir + "music.wav");
 }
 
 Canvas::Canvas(Game game):
@@ -210,6 +212,10 @@ void Canvas::handle_key_pressed_event(const sf::Event& event)
             window.close();
             break;
 
+        case sf::Keyboard::Enter:
+            hard_reset();
+            break;
+
         case sf::Keyboard::A:
             team1_buzz();
             break;
@@ -247,33 +253,45 @@ void Canvas::mouse_button_pressed_event(const sf::Event& event)
 
 void Canvas::team1_buzz()
 {
-    if(state == STOPPED)
+    if(state != PENDING)
     { return; }
 
+    music.pause();
     team1_sound.play();
 
     team1_col = sf::Color(255, 51, 51);
-    state = STOPPED;
+    state = BUZZED;
 }
 
 void Canvas::team2_buzz()
 {
-    if(state == STOPPED)
+    if(state != PENDING)
     { return; }
 
+    music.pause();
     team2_sound.play();
 
     team2_col = sf::Color(51, 153, 255);
-    state = STOPPED;
+    state = BUZZED;
 }
 
 void Canvas::reset()
 {
-    setup();
+    music.play();
 
     team1_col = sf::Color::White;
     team2_col = sf::Color::White;
     state = PENDING;
+}
+
+void Canvas::hard_reset()
+{
+    music.stop();
+    setup();
+
+    team1_col = sf::Color::White;
+    team2_col = sf::Color::White;
+    state = BLOCKED;
 }
 
 void Canvas::increase_score(float x)
