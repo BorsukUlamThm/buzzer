@@ -1,6 +1,7 @@
 #include "Canvas.h"
 
 #include <utility>
+#include <iostream>
 
 
 void Canvas::setup()
@@ -8,12 +9,14 @@ void Canvas::setup()
     font.loadFromFile("../data/fonts/arial.ttf");
 
     std::string sound_dir = "../data/sounds/";
-    team1_sound_buffer.loadFromFile(sound_dir + "team1_sound.wav");
+    team1_sound_buffer.loadFromFile(sound_dir + game.team1.buzz_sound_file);
     team1_sound.setBuffer(team1_sound_buffer);
-    team2_sound_buffer.loadFromFile(sound_dir + "team2_sound.wav");
+    team2_sound_buffer.loadFromFile(sound_dir + game.team2.buzz_sound_file);
     team2_sound.setBuffer(team2_sound_buffer);
 
-    music.openFromFile(sound_dir + "music.wav");
+    if(game.musics.empty())
+    { return; }
+    music.openFromFile(sound_dir + game.musics[music_index]);
 }
 
 Canvas::Canvas(Game game):
@@ -216,13 +219,54 @@ void Canvas::handle_key_pressed_event(const sf::Event& event)
             hard_reset();
             break;
 
+        case sf::Keyboard::Space:
+            reset();
+            break;
+
+        case sf::Keyboard::Left:
+            if(music_index == 0)
+            { break; }
+
+            music_index--;
+            std::cout << "music index (starting from 1) : "
+            << music_index + 1 << std::endl;
+            hard_reset();
+            break;
+
+        case sf::Keyboard::Right:
+            if(music_index == game.musics.size  () - 1)
+            { break; }
+
+            music_index++;
+            std::cout << "music index (starting from 1) : "
+            << music_index + 1 << std::endl;
+            hard_reset();
+            break;
+
+        case sf::Keyboard::Z:
+            game.increase_team1_score();
+            break;
+
+        case sf::Keyboard::A:
+            game.decrease_team1_score();
+            break;
+
+        case sf::Keyboard::S:
+            game.increase_team2_score();
+            break;
+
+        case sf::Keyboard::Q:
+            game.decrease_team2_score();
+            break;
+
+/*
         case sf::Keyboard::A:
             team1_buzz();
             break;
 
         case sf::Keyboard::P:
             team2_buzz();
-            break;
+            break;*/
 
         default:
             break;
@@ -232,18 +276,26 @@ void Canvas::handle_key_pressed_event(const sf::Event& event)
 void Canvas::mouse_button_pressed_event(const sf::Event& event)
 {
     switch (event.mouseButton.button)
-    {
+    {/*
         case sf::Mouse::Left:
             increase_score(float(event.mouseButton.x));
             break;
 
         case sf::Mouse::Right:
             decrease_score(float(event.mouseButton.x));
+            break;*/
+
+        case sf::Mouse::Left:
+            team1_buzz();
             break;
 
+        case sf::Mouse::Right:
+            team2_buzz();
+            break;
+/*
         case sf::Mouse::Middle:
             reset();
-            break;
+            break;*/
 
         default:
             break;

@@ -8,6 +8,7 @@ Game::Game(const std::string &file)
     std::ifstream ifs(path);
 
     bool team1_done = false;
+    bool team2_done = false;
 
     std::string line;
     while(!ifs.eof())
@@ -18,18 +19,32 @@ Game::Game(const std::string &file)
         if(line.empty())
         { continue; }
 
-        if(team1_done)
+        if(team1_done && team2_done)
+        {
+            musics.push_back(line);
+        }
+        else if(team1_done)
         {
             team2.name = line;
+
             std::getline(ifs, line);
             team2.score = std::stoi(line);
-            return;
+
+            std::getline(ifs, line);
+            team2.buzz_sound_file = line;
+
+            team2_done = true;
         }
         else
         {
             team1.name = line;
+
             std::getline(ifs, line);
             team1.score = std::stoi(line);
+
+            std::getline(ifs, line);
+            team1.buzz_sound_file = line;
+
             team1_done = true;
         }
     }

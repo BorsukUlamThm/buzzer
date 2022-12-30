@@ -7,6 +7,7 @@ struct Team
 {
     std::string name;
     int score = 0;
+    std::string buzz_sound_file;
 };
 
 
@@ -15,6 +16,8 @@ struct Game
     // Attributes
     Team team1;
     Team team2;
+
+    std::vector<std::string> musics;
 
     // Constructors
     Game() = default;

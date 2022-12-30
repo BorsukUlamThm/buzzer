@@ -35,7 +35,9 @@ protected:
     sf::SoundBuffer team2_sound_buffer;
     sf::Sound team1_sound;
     sf::Sound team2_sound;
+
     sf::Music music;
+    unsigned music_index = 0;
 
 public:
     Canvas() = default;
